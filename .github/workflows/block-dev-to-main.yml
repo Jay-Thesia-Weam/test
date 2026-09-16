@@ -1,0 +1,17 @@
+name: Block dev into main
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  reject-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disallow PRs from dev
+        run: |
+          echo "Source branch: ${{ github.head_ref }}"
+          if [ "${{ github.head_ref }}" = "dev" ]; then
+            echo "PRs from dev into main are not allowed."
+            exit 1
+          fi
